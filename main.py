@@ -7,7 +7,7 @@ class gamePlay:
         self.width = width
         self.height = height
         screen = pygame.display.set_mode((width, height))
-        pygame.display.set_caption(Goats and Tiger)
+        pygame.display.set_caption("Goats and Tiger")
 
     def gameBoard(self):
         running = True
