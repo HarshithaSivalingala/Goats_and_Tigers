@@ -19,9 +19,8 @@ class gamePlay:
             color = (255, 255, 255)
             rectangle = pygame.Rect(400,400,400,400)
             rectangle.center = (500,400)
-
             pygame.draw.rect(self.screen, color, rectangle, 2)
-
             pygame.display.flip()
+            pygame.draw.lines(self.screen, color, True, [[500, 200], [700, 400], [500, 600], [300, 400]], 2)
 game = gamePlay(1400, 800)
 game.gameBoard()
