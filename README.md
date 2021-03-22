@@ -16,10 +16,11 @@ In the game one player controls three tigers and the other player controls up to
 6. 19WH1A1208 - C.Madhuri
 
 **Tech Stack**
-Pygame
-PyCharm
-Git
-LaTex
+- Pygame
+- PyCharm
+- Git
+- LaTex
+
 
 
 
