@@ -1,4 +1,5 @@
 import pygame
+import time
 pygame.init()
 
 
@@ -34,6 +35,14 @@ class gamePlay:
         self.screen.blit(text3, (750, 400))
         pygame.display.flip()
 
+    def drawTiger(self, tx, ty):
+        tiger = pygame.image.load('notes and resources/Tiger.png')
+        tiger = pygame.transform.scale(tiger, (40, 40))
+        rect = tiger.get_rect()
+        rect = rect.move((tx, ty))
+        self.screen.blit(tiger, rect)
+        pygame.display.flip()
+        pygame.time.delay(60)
 
 game = gamePlay(1200, 800)
 
@@ -41,6 +50,7 @@ running = True
 while running:
     game.gameBoard()
     game.scoreBoard()
+    game.drawTiger(500, 200)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
