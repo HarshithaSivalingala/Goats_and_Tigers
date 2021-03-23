@@ -17,30 +17,12 @@ class gamePlay:
                     running = False
 
             color = (255, 255, 255)
-            rectangle = pygame.Rect(400, 400, 400, 400)
-            rectangle.center = (500, 400)
-            pygame.draw.rect(self.screen, color, rectangle, 2)
+            pygame.draw.polygon(self.screen, color, [[300,600],[700,600],[500,200]] , 2)
             pygame.display.flip()
-            pygame.draw.lines(self.screen, color, True, [[500, 200], [700, 400], [500, 600], [300, 400]], 2)
+            pygame.draw.lines(self.screen, color, True, [[300, 333.3], [700, 333.3],[700, 466.6],[300,466.6]], 2)
+            pygame.draw.line(self.screen,color,(300,399.9),(700,399.9), 2)
+            pygame.draw.aalines(self.screen, color, False,[[433, 600], [500,200],[566, 600], [500, 200]],2)
 
-            #diagonal lines
-            pygame.draw.line(self.screen, color, (300, 200), (700, 600), 2)
-            pygame.draw.line(self.screen, color, (700, 200), (300, 600), 2)
-
-            #horizontal lines
-
-            initTopXleft = 300
-            initBottomXright = 700
-
-            for y in range(300, 600, 100):
-                pygame.draw.line(self.screen, color, (initTopXleft, y), (initBottomXright, y), 2)
-
-            # vertical lines
-            initTopYv = 200
-            initBottomYv = 600
-
-            for x in range(400, 700, 100):
-                pygame.draw.line(self.screen, color, (x, initTopYv), (x, initBottomYv), 2)
 
 
 game = gamePlay(1400, 800)
