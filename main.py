@@ -22,5 +22,7 @@ class gamePlay:
             pygame.draw.rect(self.screen, color, rectangle, 2)
             pygame.display.flip()
             pygame.draw.lines(self.screen, color, True, [[500, 200], [700, 400], [500, 600], [300, 400]], 2)
+            pygame.draw.lines(self.screen, color, False, [[300, 300], [700, 300], [700, 400], [300, 400], [300, 500], [700, 500]], 2)
+
 game = gamePlay(1400, 800)
 game.gameBoard()
