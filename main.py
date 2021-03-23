@@ -26,5 +26,10 @@ class gamePlay:
             pygame.draw.lines(self.screen, color, True, [(300, 300), (700, 300)], 2)
             pygame.draw.lines(self.screen, color, True, [(700, 400), (300, 400)], 2)
             pygame.draw.lines(self.screen, color, True, [(300, 500), (700, 500)], 2)
+
+            pygame.draw.line(self.screen, color, (300,200), (700,600), 2)
+            pygame.draw.line(self.screen, color, (700,200), (300,600), 2)
+
+
 game = gamePlay(1400, 800)
 game.gameBoard()
