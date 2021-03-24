@@ -9,18 +9,33 @@ class GamePlay:
         self.screen = pygame.display.set_mode((width, height))
         self.move = 0
         pygame.display.set_caption("Goats and Tiger")
+        self.boardPositions = [(400, 200),
+                               (200, 334), (333, 333), (377, 334), (422, 334), (467, 333), (600, 333),
+                               (200, 400), (300, 400), (366, 400), (433, 400), (500, 400), (600, 400),
+                               (200, 468), (266, 466), (356, 467), (443, 467), (534, 466), (600, 466),
+                               (200, 600), (333, 600), (467, 600), (600, 600)]
 
     def gameBoard(self):
         bg = pygame.image.load("notes and resources/brown_bg.jpg")
         self.screen.blit(bg, (0, 0))
 
-        self.color = (255, 255, 255)
+        self.black = (0, 0, 0)
+        self.brown = (139, 69, 19)
+        self.chestnut = (221,173,175)
 
         # creating A triangle
-        pygame.draw.polygon(self.screen, self.color, [[200, 600], [600, 600], [400, 200]], 2)
-        pygame.draw.lines(self.screen, self.color, True, [[200, 333.3], [600, 333.3], [600, 466.6], [200, 466.6]], 2)
-        pygame.draw.line(self.screen, self.color, (200, 399.9), (600, 399.9), 2)
-        pygame.draw.aalines(self.screen, self.color, False, [[333, 600], [400, 200], [466, 600]])
+        pygame.draw.polygon(self.screen, self.black, [[200, 600], [600, 600], [400, 200]], 3)
+        pygame.draw.lines(self.screen, self.black, True, [[200, 333.3], [600, 333.3], [600, 466.6], [200, 466.6]], 3)
+        pygame.draw.line(self.screen, self.black, (200, 399.9), (600, 399.9), 3)
+        pygame.draw.aalines(self.screen, self.black, False, [[333, 600], [400, 200], [466, 600]])
+
+        for i, point in enumerate(self.boardPositions):
+            pygame.draw.circle(self.screen, self.brown, point, 10)
+            fontnum = pygame.font.SysFont("monospace", 15, True)
+            text = fontnum.render(str(i), True, self.chestnut)
+            textRect = text.get_rect()
+            textRect.center = point
+            self.screen.blit(text, textRect)
 
     def scoreBoard(self):
         BLACK = (0, 0, 0)
@@ -76,13 +91,14 @@ while running:
     tiger3 = game.drawTiger(421, 332)
 
     tigerPositions = [(500, 200), (478, 331), (521, 332)]
-    tigerVect = [tiger1, tiger2, tiger3]
+    #tigerVect = [tiger1, tiger2, tiger3]
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONUP:
             x, y = pygame.mouse.get_pos()
+            print(x, y)
 
     pygame.display.flip()
     pygame.display.update()
