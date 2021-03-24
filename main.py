@@ -88,7 +88,7 @@ while running:
 
 
     game.tigerMove(300, 600, which)
-
+    print(x,y)
     pygame.display.flip()
     pygame.display.update()
     clock.tick(60)
