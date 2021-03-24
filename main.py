@@ -71,11 +71,12 @@ which = -1
 while running:
     game.gameBoard()
     game.scoreBoard()
-    tiger1 = game.drawTiger(500, 200)
-    tiger2 = game.drawTiger(478, 331)
-    tiger3 = game.drawTiger(521, 332)
-
     tigerPositions = [(500, 200), (478, 331), (521, 332)]
+
+    tiger1 = game.drawTiger(tigerPositions[0])
+    tiger2 = game.drawTiger(tigerPositions[1])
+    tiger3 = game.drawTiger(tigerPositions[2])
+
     tigerVect = [tiger1, tiger2, tiger3]
 
     for event in pygame.event.get():
