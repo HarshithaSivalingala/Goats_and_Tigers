@@ -39,7 +39,7 @@ class gamePlay:
         tiger = pygame.image.load('notes and resources/Tiger.png')
         tiger = pygame.transform.scale(tiger, (40, 40))
         rect = tiger.get_rect()
-        rect = rect.move((tx, ty))
+        rect.center = ((tx, ty))
         self.screen.blit(tiger, rect)
         pygame.display.flip()
         pygame.time.delay(60)
@@ -51,6 +51,11 @@ while running:
     game.gameBoard()
     game.scoreBoard()
     game.drawTiger(500, 200)
+    game.drawTiger(434, 334)
+    game.drawTiger(567, 334)
+    game.drawTiger(478, 331)
+    game.drawTiger(521, 332)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
