@@ -2,6 +2,7 @@ import pygame
 import time
 pygame.init()
 
+move = 0
 
 class gamePlay:
     def __init__(self, width, height):
@@ -26,7 +27,7 @@ class gamePlay:
         fontT = pygame.font.SysFont("monospace", 45)
         text = fontT.render("Score Board", True, BLACK)
         self.screen.blit(text, (800, 100))
-        font = pygame.font.SysFont("arial", 35)
+        font = pygame.font.SysFont("arial.tff", 35)
         text1 = font.render("Goats Left : ", True, BLACK)
         self.screen.blit(text1, (750, 200))
         text2 = font.render("Goats Captured : ", True, BLACK)
@@ -39,10 +40,23 @@ class gamePlay:
         tiger = pygame.image.load('notes and resources/Tiger.png')
         tiger = pygame.transform.scale(tiger, (40, 40))
         rect = tiger.get_rect()
-        rect.center = ((tx, ty))
+        rect.center = (tx, ty)
         self.screen.blit(tiger, rect)
         pygame.display.flip()
         pygame.time.delay(60)
+        return tiger
+
+    def movePiece(self, x, y):
+        if move % 2 != 0:
+            self.goatTurn(x, y)
+        self.tigerTurn(x, y)
+
+    def tigerTurn(self, x, y):
+        pass
+
+    def goatTurn(self, x, y):
+        pass
+
 
 game = gamePlay(1200, 800)
 
@@ -50,13 +64,15 @@ running = True
 while running:
     game.gameBoard()
     game.scoreBoard()
-    game.drawTiger(500, 200)
-    game.drawTiger(434, 334)
-    game.drawTiger(567, 334)
-    game.drawTiger(478, 331)
-    game.drawTiger(521, 332)
+    tiger1 = game.drawTiger(500, 200)
+    tiger2 = game.drawTiger(478, 331)
+    tiger3 = game.drawTiger(521, 332)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.MOUSEBUTTONUP:
+            move += 1
+            x, y = pygame.mouse.get_pos()
+            game.movePiece(x, y)
     pygame.time.delay(30)
