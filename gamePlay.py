@@ -1,4 +1,5 @@
 import pygame
+
 pygame.init()
 BLACK = (0, 0, 0)
 user_text = ''
@@ -8,7 +9,7 @@ clock = pygame.time.Clock()
 tiger = 1
 goat = 0
 boardState = [[(400, 200), 1],
-              [(200, 334), -1], [(333, 333), -1], [(377, 334), 1], [(422, 334), 1], [(467, 333), -1], [(600, 333), -1],
+              [(200, 334), -1], [(333, 333), -1], [(378, 331), 1], [(422, 334), 1], [(467, 333), -1], [(600, 333), -1],
               [(200, 400), -1], [(300, 400), -1], [(366, 400), -1], [(433, 400), -1], [(500, 400), -1], [(600, 400), -1],
               [(200, 468), -1], [(266, 466), -1], [(356, 467), -1], [(443, 467), -1], [(534, 466), -1], [(600, 466), -1],
               [(200, 600), -1], [(333, 600), -1], [(467, 600), -1], [(600, 600), -1]]
@@ -38,7 +39,7 @@ class GamePlay:
         pygame.draw.aalines(self.screen, self.black, False, [[333, 600], [400, 200], [466, 600]])
 
         self.boardPositions = [(400, 200),
-                      (200, 334), (333, 333), (377, 334), (422, 334), (467, 333), (600, 333),
+                      (200, 334), (333, 333), (378, 331), (422, 334), (467, 333), (600, 333),
                       (200, 400), (300, 400), (366, 400), (433, 400), (500, 400), (600, 400),
                       (200, 468), (266, 466), (356, 467), (443, 467), (534, 466), (600, 466),
                       (200, 600), (333, 600), (467, 600), (600, 600)]
@@ -82,7 +83,6 @@ class GamePlay:
         self.screen.blit(tigersCornered, (970, 400))
 
     def drawTiger(self, coord):
-        # Inserting tiger
         tiger = pygame.image.load('notes and resources/Tiger.png')
         tiger = pygame.transform.scale(tiger, (40, 40))
         rect = tiger.get_rect()
@@ -90,9 +90,24 @@ class GamePlay:
         self.screen.blit(tiger, rect)
         return rect
 
+    def drawGoat(self, pos):
+        goat = pygame.image.load('notes and resources/goat.png')
+        goat = pygame.transform.scale(goat, (40, 40))
+        rect = goat.get_rect()
+        coord = self.boardPositions[pos]
+        rect.center = (coord[0], coord[1])
+        self.screen.blit(goat, rect)
+        return rect
+
+    def phase1Goat(self):
+        for i in range(15):
+            font1 = pygame.font.SysFont("arial.tff", 30)
+            text = font1.render("Where do you want to place the goat?", True, BLACK)
+            self.screen.blit(text, (700, 550))
+
     def whichPiece(self, pos):
         for i in range(3):
-            if tigerVect[i].top < boardState[pos][0][1] and tigerVect[i].left < boardState[pos][0][0]:
+            if tigerVect[i].center == boardState[pos][0]:
                 return i
 
     def movePiece(self, curr, des):
@@ -117,7 +132,7 @@ running = True
 whichT = -1
 whichG = -1
 
-tigerPositions = [(400, 200), (378, 331), (421, 332)]
+tigerPositions = [(400, 200), (378, 331), (422, 334)]
 
 while running:
     game.gameBoard()
@@ -130,6 +145,12 @@ while running:
 
     tigerVect = [tiger0, tiger1, tiger2]
 
+    game.phase1Goat()
+
+    phase1 = True
+    moves = 0
+    turn = 0
+    helper = ''
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -138,10 +159,23 @@ while running:
                 user_text = user_text[:-1]
 
             elif event.key == pygame.K_RETURN:
-                processedInput = user_text.split(',')
-                curr = int(processedInput[0])
-                des = int(processedInput[1])
-                game.movePiece(curr, des)
+                if moves == 15:
+                    phase1 = False
+
+                if phase1 and turn == 0:
+                    moves += 1
+                    game.drawGoat(int(user_text))
+                    helper = user_text
+                    user_text = ''
+                    turn = 1
+                    break
+
+                else:
+                    processedInput = user_text.strip().split(',')
+                    curr = int(processedInput[0])
+                    des = int(processedInput[1])
+                    user_text = ''
+                    game.movePiece(curr, des)
 
             else:
                 user_text += event.unicode
