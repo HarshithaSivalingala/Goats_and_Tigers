@@ -8,7 +8,7 @@ base_font = pygame.font.Font(None, 32)
 user_text = ''
 
 input_rect = pygame.Rect(200, 200, 140, 32)
-color = pygame.Color('Black')
+color = pygame.Color('White')
 active = False
 while True:
     for event in pygame.event.get():

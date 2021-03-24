@@ -1,5 +1,8 @@
 import pygame
 pygame.init()
+BLACK = (0, 0, 0)
+user_text = ''
+input_rect = pygame.Rect(800, 600, 200, 50)
 clock = pygame.time.Clock()
 
 tiger = 1
@@ -47,6 +50,14 @@ class GamePlay:
             textRect = text.get_rect()
             textRect.center = point
             self.screen.blit(text, textRect)
+
+    def user_input(self):
+        # input the text
+        base_font = pygame.font.Font(None, 32) # text to be added
+        text = base_font.render(user_text, True, BLACK)
+        pygame.draw.rect(self.screen, BLACK, input_rect, 3)
+        self.screen.blit(text, input_rect)
+        # input_rect.w = max(100, text.get_width() + 10) # if the text is increased
 
     def scoreBoard(self):
         BLACK = (0, 0, 0)
@@ -111,6 +122,7 @@ tigerPositions = [(400, 200), (378, 331), (421, 332)]
 while running:
     game.gameBoard()
     game.scoreBoard()
+    game.user_input()
 
     #for j in range(3):
     tiger0 = game.drawTiger(tigerPositions[0])
@@ -122,6 +134,11 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_BACKSPACE:
+                user_text = user_text[:-1]
+            else:
+                user_text += event.unicode
 
     pygame.time.wait(100)
     curr = 0
