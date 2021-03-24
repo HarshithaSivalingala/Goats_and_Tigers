@@ -124,7 +124,6 @@ while running:
     game.scoreBoard()
     game.user_input()
 
-    #for j in range(3):
     tiger0 = game.drawTiger(tigerPositions[0])
     tiger1 = game.drawTiger(tigerPositions[1])
     tiger2 = game.drawTiger(tigerPositions[2])
@@ -137,13 +136,16 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_BACKSPACE:
                 user_text = user_text[:-1]
+
+            elif event.key == pygame.K_RETURN:
+                processedInput = user_text.split(',')
+                curr = int(processedInput[0])
+                des = int(processedInput[1])
+                game.movePiece(curr, des)
+
             else:
                 user_text += event.unicode
 
-    pygame.time.wait(100)
-    curr = 0
-    des = 2
-    game.movePiece(curr, des)
     pygame.display.flip()
     pygame.display.update()
     clock.tick(60)

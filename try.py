@@ -32,7 +32,6 @@ while True:
     screen.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
 
     input_rect.w = max(100, text_surface.get_width() + 10)
-
     pygame.display.flip()
     clock.tick(60)
 
