@@ -17,10 +17,10 @@ class GamePlay:
         self.color = (255, 255, 255)
 
         # creating A triangle
-        pygame.draw.polygon(self.screen, self.color, [[300, 600], [700, 600], [500, 200]], 2)
-        pygame.draw.lines(self.screen, self.color, True, [[300, 333.3], [700, 333.3], [700, 466.6], [300, 466.6]], 2)
-        pygame.draw.line(self.screen, self.color, (300, 399.9), (700, 399.9), 2)
-        pygame.draw.aalines(self.screen, self.color, False, [[433, 600], [500, 200], [566, 600]])
+        pygame.draw.polygon(self.screen, self.color, [[200, 600], [600, 600], [400, 200]], 2)
+        pygame.draw.lines(self.screen, self.color, True, [[200, 333.3], [600, 333.3], [600, 466.6], [200, 466.6]], 2)
+        pygame.draw.line(self.screen, self.color, (200, 399.9), (600, 399.9), 2)
+        pygame.draw.aalines(self.screen, self.color, False, [[333, 600], [400, 200], [466, 600]])
 
     def scoreBoard(self):
         BLACK = (0, 0, 0)
@@ -71,9 +71,9 @@ which = -1
 while running:
     game.gameBoard()
     game.scoreBoard()
-    tiger1 = game.drawTiger(500, 200)
-    tiger2 = game.drawTiger(478, 331)
-    tiger3 = game.drawTiger(521, 332)
+    tiger1 = game.drawTiger(400, 200)
+    tiger2 = game.drawTiger(378, 331)
+    tiger3 = game.drawTiger(421, 332)
 
     tigerPositions = [(500, 200), (478, 331), (521, 332)]
     tigerVect = [tiger1, tiger2, tiger3]
@@ -83,10 +83,6 @@ while running:
             running = False
         if event.type == pygame.MOUSEBUTTONUP:
             x, y = pygame.mouse.get_pos()
-            which = game.whichPiece(x, y, 300, 600)
-
-
-    game.tigerMove(300, 600, which)
 
     pygame.display.flip()
     pygame.display.update()
