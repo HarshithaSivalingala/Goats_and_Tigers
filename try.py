@@ -1,9 +1,9 @@
-import  pygame
+import pygame
 import sys
 
 pygame.init()
-clock = pygame.time.clock()
-screen = pygame.display.set_mode([800,800])
+clock = pygame.time.Clock()
+screen = pygame.display.set_mode([800, 800])
 base_font = pygame.font.Font(None, 32)
 user_text = ''
 
@@ -16,7 +16,7 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if input_rect.collidepoint(event.pos)
+            if input_rect.collidepoint(event.pos):
                 active = True
             else:
                 active = False
@@ -28,10 +28,10 @@ while True:
 
     screen.fill((0, 0, 0))
     pygame.draw.rect(screen, color, input_rect, 3)
-    text_surface = base_font.render(user_text, True, (0, 0, 0))
+    text_surface = base_font.render(user_text, True, (255, 255, 255))
     screen.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
 
-    input_rect_rect.w = max(100, text_surface.get_width() + 10)
+    input_rect.w = max(100, text_surface.get_width() + 10)
 
     pygame.display.flip()
     clock.tick(60)

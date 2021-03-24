@@ -96,7 +96,7 @@ class GamePlay:
         boardState[curr][1] = -1
         boardState[des][1] = 1
 
-    def goatMove(self, curr, des, whichG):
+    def goatMove(self, curr, des, whichG ):
         pass
 
 
