@@ -2,10 +2,15 @@ import pygame
 
 pygame.init()
 BLACK = (0, 0, 0)
+whichT = -1
+whichG = -1
+
+moves = 0
 
 input_rect = pygame.Rect(800, 600, 200, 50)
 clock = pygame.time.Clock()
-music = pygame.mixer.music.load('notes_and_resources/BG2.mp3')
+
+pygame.mixer.music.load('notes_and_resources/BG2.mp3')
 pygame.mixer.music.play(-1)
 tiger_noise = pygame.mixer.Sound('notes_and_resources/sounds_tigersound.wav')
 goat_noise = pygame.mixer.Sound('notes_and_resources/Goat-noise.mp3')
@@ -26,6 +31,10 @@ class GamePlay:
         self.tigersCornered = 0
         self.goatsLeft = 15
         self.goatsCaptured = 0
+
+        self.phase1 = True
+        self.goatOn = -1
+
         pygame.display.set_caption("Goats and Tiger")
 
     def gameBoard(self):
@@ -61,7 +70,7 @@ class GamePlay:
         base_font = pygame.font.Font(None, 32) # text to be added
         text = base_font.render(user_text, True, BLACK)
         pygame.draw.rect(self.screen, BLACK, input_rect, 3)
-        self.screen.blit(text, input_rect)
+        self.screen.blit(text, pygame.Rect(804, 604, 200, 50))
         # input_rect.w = max(100, text.get_width() + 10) # if the text is increased
 
     def scoreBoard(self):
@@ -94,33 +103,66 @@ class GamePlay:
         self.screen.blit(tiger, rect)
         return rect
 
-    def drawGoat(self, pos):
+    def drawGoat(self, coord):
         goat = pygame.image.load('notes_and_resources/goat.png')
         goat = pygame.transform.scale(goat, (40, 40))
         rect = goat.get_rect()
-        coord = self.boardPositions[pos]
         rect.center = (coord[0], coord[1])
         self.screen.blit(goat, rect)
-
         return rect
 
-    def phase1Goat(self):
-        for i in range(15):
-            font1 = pygame.font.SysFont("arial.tff", 30)
-            text = font1.render("Where do you want to place the goat?", True, BLACK)
-            self.screen.blit(text, (700, 550))
+    def display(self, move):
+        font2 = pygame.font.SysFont("comicsansms", 35)
+        font3 = pygame.font.SysFont("comicsansms", 30)
+        gTurn = font2.render("Goat's Turn", True, BLACK)
+        tTurn = font2.render("Tiger's Turn", True, BLACK)
+        Text = font3.render("Enter the position (From, To)", True, BLACK)
+        gText = font3.render("Enter the position", True, BLACK)
+
+        if moves % 2 == 0:
+            if moves < 31:
+                self.screen.blit(gTurn, (800, 500))
+                self.screen.blit(gText, (770, 550))
+
+            else:
+                self.screen.blit(gTurn, (800, 500))
+                self.screen.blit(Text, (740, 550))
+        else:
+            self.screen.blit(tTurn, (800, 500))
+            self.screen.blit(Text, (740, 550))
 
     def whichPiece(self, pos):
-        for i in range(3):
-            if tigerVect[i].center == boardState[pos][0]:
-                return i
+        if boardState[pos][1] == 1:
+            for i in range(3):
+                if tigerVect[i].center == boardState[pos][0]:
+                    return i
+        elif boardState[pos][1] == 0:
+            for j in range(15):
+                if goatsVect[j].center == boardState[pos][0]:
+                    return j
 
-    def movePiece(self, curr, des):
-        if boardState[curr][1] == 1:
+    def movePiece(self, inp):
+        global moves
+        moves += 1
+
+        if moves == 30:
+            self.phase1 = False
+
+        if moves % 2 != 0 and self.phase1:
+                self.goatMove1(inp)
+
+        elif self.phase1 == False:
+            text = inp.strip().split(',')
+            curr, des = int(text[0]), int(text[1])
+            whichG = self.whichPiece(curr)
+            self.goatMove(curr, des, whichG)
+
+        else:
+            text = inp.strip().split(',')
+            curr, des = int(text[0]), int(text[1])
             whichT = self.whichPiece(curr)
             self.tigerMove(curr, des, whichT)
-        if boardState[curr][1] == 0:
-            self.goatMove(curr, des, whichG)
+
 
     def tigerMove(self, curr, des, whichT):
         tigerPositions[whichT] = boardState[des][0]
@@ -128,18 +170,26 @@ class GamePlay:
         boardState[des][1] = 1
         tiger_noise.play()
 
-    def goatMove(self, curr, des, whichG ):
-        pass
+    def goatMove(self, curr, des, whichG):
+        goatPositions[whichG] = boardState[des][0]
         goat_noise.play()
+        boardState[curr][1] = -1
+        boardState[des][1] = 0
+
+    def goatMove1(self, inp):
+        self.goatOn += 1
+        goatPositions[self.goatOn] = boardState[int(inp)][0]
+        goat_noise.play()
+        boardState[int(inp)][1] = 0
+
 
 game = GamePlay(1200, 800)
 
 running = True
-whichT = -1
-whichG = -1
 
 tigerPositions = [(400, 200), (378, 331), (422, 334)]
-helper = ''
+goatPositions = []
+
 user_text = ''
 
 while running:
@@ -152,12 +202,15 @@ while running:
     tiger2 = game.drawTiger(tigerPositions[2])
 
     tigerVect = [tiger0, tiger1, tiger2]
+    goatsVect = []
 
-    game.phase1Goat()
+    for i in range(300, 600, 20):
+        goatPositions.append((100, i))
 
-    phase1 = True
-    moves = 0
-    turn = 0
+    for j in range(15):
+        goatsVect.append(game.drawGoat(goatPositions[j]))
+
+    game.display(moves)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -168,17 +221,12 @@ while running:
                 user_text = user_text[:-1]
 
             elif event.key == pygame.K_RETURN:
-                text = user_text.strip().split(',')
-                curr = int(text[0])
-                des = int(text[1])
+                game.movePiece(user_text)
                 user_text = ''
-                game.movePiece(curr, des)
 
             else:
                 user_text += event.unicode
 
-      #  print("user", user_text)
-    #game.drawGoat(int(user_text))
     pygame.display.flip()
     pygame.display.update()
     clock.tick(60)
