@@ -1,4 +1,5 @@
 import pygame
+import time
 
 pygame.init()
 BLACK = (0, 0, 0)
@@ -9,9 +10,12 @@ moves = 0
 
 input_rect = pygame.Rect(800, 600, 200, 50)
 clock = pygame.time.Clock()
+BLACK = (0, 0, 0)
+GREEN = (50, 205, 50)
+RED = (220, 20, 60)
 
 pygame.mixer.music.load('notes_and_resources/BG2.mp3')
-pygame.mixer.music.play(-1)
+#pygame.mixer.music.play(-1)
 tiger_noise = pygame.mixer.Sound('notes_and_resources/sounds_tigersound.wav')
 goat_noise = pygame.mixer.Sound('notes_and_resources/Goat-noise.mp3')
 
@@ -34,6 +38,8 @@ class GamePlay:
 
         self.phase1 = True
         self.goatOn = -1
+        self.goatOffx = 150
+        self.goatOffy = 100
 
         pygame.display.set_caption("Goats and Tiger")
 
@@ -74,9 +80,6 @@ class GamePlay:
         # input_rect.w = max(100, text.get_width() + 10) # if the text is increased
 
     def scoreBoard(self):
-        BLACK = (0, 0, 0)
-        GREEN = (50,205,50)
-        RED = (220,20,60)
         # font for Title
         fontT = pygame.font.SysFont("monospace", 45)
         text = fontT.render("Score Board", True, BLACK)
@@ -141,9 +144,18 @@ class GamePlay:
                 if goatsVect[j].center == boardState[pos][0]:
                     return j
 
+    def isValid(self, inp):
+        return True
+
     def movePiece(self, inp):
         global moves
-        moves += 1
+        if self.isValid(inp):
+            moves += 1
+        else:
+            fontIn = pygame.font.SysFont("serif", 45)
+            text = fontIn.render("Score Board", True, RED)
+            self.screen.blit(text, (500, 100))
+            return
 
         if moves == 30:
             self.phase1 = False
@@ -163,23 +175,64 @@ class GamePlay:
             whichT = self.whichPiece(curr)
             self.tigerMove(curr, des, whichT)
 
+    def checkGoat(self, checkPos):
+        if boardState[checkPos][1] == 0:
+            for i in range(15):
+                if goatsVect[i].center == self.boardPositions[checkPos]:
+                    goatPositions[i] = (self.goatOffx, self.goatOffy)
+                    self.goatOffx += 30
+                    return True
+
+    def goatKilled(self, curr, des):
+        if (curr == 0 and des >= 2) or (curr >= 2 and des == 0):
+            return self.verticalMove(curr, des)
+
+        elif abs(curr - des) > 2:
+            return self.verticalMove(curr, des)
+        else:
+            print("inside")
+            return self.horizontalMove(curr, des)
+
+    def horizontalMove(self, curr, des):
+        if abs(curr - des) == 1:
+            return False
+        else:
+            checkPos = min(curr, des) + 1
+            return self.checkGoat(checkPos)
+
+    def verticalMove(self, curr, des):
+        if curr != 0 and des != 0:
+            checkPos = min(curr, des) + 6
+            return self.checkGoat(checkPos)
+        else:
+            checkPos = max(curr, des) - 6
+            if checkPos < 0:
+                return False
+            return self.checkGoat(checkPos)
 
     def tigerMove(self, curr, des, whichT):
+        if self.goatKilled(curr, des):
+            tiger_noise.play()
+            self.goatsCaptured += 1
+            self.goatsLeft -= 1
+
         tigerPositions[whichT] = boardState[des][0]
         boardState[curr][1] = -1
         boardState[des][1] = 1
-        tiger_noise.play()
+        if self.goatsCaptured == 5:
+            print("Tiger won")
+            exit()
 
     def goatMove(self, curr, des, whichG):
         goatPositions[whichG] = boardState[des][0]
-        goat_noise.play()
+        #goat_noise.play()
         boardState[curr][1] = -1
         boardState[des][1] = 0
 
     def goatMove1(self, inp):
         self.goatOn += 1
         goatPositions[self.goatOn] = boardState[int(inp)][0]
-        goat_noise.play()
+        #goat_noise.play()
         boardState[int(inp)][1] = 0
 
 
