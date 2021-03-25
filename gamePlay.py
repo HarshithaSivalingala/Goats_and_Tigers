@@ -2,7 +2,7 @@ import pygame
 
 pygame.init()
 BLACK = (0, 0, 0)
-user_text = ''
+
 input_rect = pygame.Rect(800, 600, 200, 50)
 clock = pygame.time.Clock()
 
@@ -25,7 +25,7 @@ class GamePlay:
         pygame.display.set_caption("Goats and Tiger")
 
     def gameBoard(self):
-        bg = pygame.image.load("notes and resources/brown_bg.jpg")
+        bg = pygame.image.load("notes_and_resources/brown_bg.jpg")
         self.screen.blit(bg, (0, 0))
 
         self.black = (0, 0, 0)
@@ -83,7 +83,7 @@ class GamePlay:
         self.screen.blit(tigersCornered, (970, 400))
 
     def drawTiger(self, coord):
-        tiger = pygame.image.load('notes and resources/Tiger.png')
+        tiger = pygame.image.load('notes_and_resources/Tiger.png')
         tiger = pygame.transform.scale(tiger, (40, 40))
         rect = tiger.get_rect()
         rect.center = (coord[0], coord[1])
@@ -91,12 +91,13 @@ class GamePlay:
         return rect
 
     def drawGoat(self, pos):
-        goat = pygame.image.load('notes and resources/goat.png')
+        goat = pygame.image.load('notes_and_resources/goat.png')
         goat = pygame.transform.scale(goat, (40, 40))
         rect = goat.get_rect()
         coord = self.boardPositions[pos]
         rect.center = (coord[0], coord[1])
         self.screen.blit(goat, rect)
+
         return rect
 
     def phase1Goat(self):
@@ -133,6 +134,8 @@ whichT = -1
 whichG = -1
 
 tigerPositions = [(400, 200), (378, 331), (422, 334)]
+helper = ''
+user_text = ''
 
 while running:
     game.gameBoard()
@@ -150,36 +153,27 @@ while running:
     phase1 = True
     moves = 0
     turn = 0
-    helper = ''
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_BACKSPACE:
                 user_text = user_text[:-1]
 
             elif event.key == pygame.K_RETURN:
-                if moves == 15:
-                    phase1 = False
-
-                if phase1 and turn == 0:
-                    moves += 1
-                    game.drawGoat(int(user_text))
-                    helper = user_text
-                    user_text = ''
-                    turn = 1
-                    break
-
-                else:
-                    processedInput = user_text.strip().split(',')
-                    curr = int(processedInput[0])
-                    des = int(processedInput[1])
-                    user_text = ''
-                    game.movePiece(curr, des)
+                text = user_text.strip().split(',')
+                curr = int(text[0])
+                des = int(text[1])
+                user_text = ''
+                game.movePiece(curr, des)
 
             else:
                 user_text += event.unicode
 
+      #  print("user", user_text)
+    #game.drawGoat(int(user_text))
     pygame.display.flip()
     pygame.display.update()
     clock.tick(60)

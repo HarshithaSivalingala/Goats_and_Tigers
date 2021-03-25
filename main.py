@@ -11,7 +11,7 @@ class GamePlay:
         pygame.display.set_caption("Goats and Tiger")
 
     def gameBoard(self):
-        bg = pygame.image.load("notes and resources/brown_bg.jpg")
+        bg = pygame.image.load("notes_and_resources/brown_bg.jpg")
         self.screen.blit(bg, (0, 0))
 
         self.color = (255, 255, 255)
@@ -38,7 +38,7 @@ class GamePlay:
 
     def drawTiger(self, tx, ty):
         # Inserting tiger
-        tiger = pygame.image.load('notes and resources/Tiger.png')
+        tiger = pygame.image.load('notes_and_resources/Tiger.png')
         tiger = pygame.transform.scale(tiger, (40, 40))
         rect = tiger.get_rect()
         rect.center = (tx, ty)
