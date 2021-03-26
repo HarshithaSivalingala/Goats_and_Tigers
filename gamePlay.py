@@ -16,8 +16,9 @@ text2 = "Quit"
  # colors
 
 BLACK = (0, 0, 0)
-lIGHT_GREEN = (50, 205, 50)
-RED = (220, 20, 60)
+WHITE = (255, 255, 255)
+LIGHT_GREEN = (50, 205, 50)
+RED = (139, 0, 0)
 LIGHT_YELLOW = (200, 200, 0)
 YELLOW = (255, 255, 0)
 GREEN = (34, 177, 76)
@@ -117,7 +118,6 @@ class GamePlay:
         sprite = pygame.sprite.Sprite()
         sprite.image = image
 
-
         sprite.rect = image.get_rect()
         #pygame.display.flip()
         sprite.rect.center = (950, 270)
@@ -125,7 +125,6 @@ class GamePlay:
         group = pygame.sprite.Group()
         group.add(sprite)
         group.draw(self.screen)
-
 
         # font for Title
         fontT = pygame.font.SysFont("forte", 47)
@@ -211,7 +210,7 @@ class GamePlay:
     def invalid(self):
         fontIn = pygame.font.SysFont("serif", 45)
         text = fontIn.render("Invalid Move", True, RED)
-        self.screen.blit(text, (500, 100))
+        self.screen.blit(text, (780, 660))
 
     def movePiece(self, inp):
         global moves
@@ -250,7 +249,6 @@ class GamePlay:
     def goatKilled(self, curr, des):
         if (curr == 0 and des >= 2) or (curr >= 2 and des == 0):
             return self.verticalMove(curr, des)
-
         elif abs(curr - des) > 2:
             return self.verticalMove(curr, des)
         else:
@@ -261,17 +259,27 @@ class GamePlay:
             return False
         else:
             checkPos = min(curr, des) + 1
-            return self.checkGoat(checkPos)
+            if self.checkGoat(checkPos):
+                boardState[checkPos][1] = -1
+                return True
+            return False
 
     def verticalMove(self, curr, des):
         if curr != 0 and des != 0:
             checkPos = min(curr, des) + 6
-            return self.checkGoat(checkPos)
+            if self.checkGoat(checkPos):
+                boardState[checkPos][1] = -1
+                return True
+            return False
+
         else:
             checkPos = max(curr, des) - 6
             if checkPos < 0:
                 return False
-            return self.checkGoat(checkPos)
+            if self.checkGoat(checkPos):
+                boardState[checkPos][1] = -1
+                return True
+            return False
 
     def tigerMove(self, curr, des, whichT):
         if self.goatKilled(curr, des):
@@ -285,7 +293,6 @@ class GamePlay:
 
     def goatMove(self, curr, des, whichG):
         goatPositions[whichG] = boardState[des][0]
-        #goat_noise.play()
         boardState[curr][1] = -1
         boardState[des][1] = 0
         self.isTigerCornered()
@@ -293,7 +300,6 @@ class GamePlay:
     def goatMove1(self, inp):
         self.goatOn += 1
         goatPositions[self.goatOn] = boardState[int(inp)][0]
-        #goat_noise.play()
         boardState[int(inp)][1] = 0
         self.isTigerCornered()
 
@@ -303,17 +309,22 @@ class GamePlay:
             ind = boardState.index([tigerVect[i].center, 1])
             if self.checkNeighbours(ind) and self.checkTigerJump(ind):
                 tc += 1
+                goat_noise.play()
         self.tigersCornered = tc
 
     def goatsWon(self):
         fontW = pygame.font.SysFont("serif", 50)
         text = fontW.render("Goats Won!", True, BLACK)
-        self.screen.blit(text, (300, 400))
+        trect = text.get_rect()
+        trect.center = (100, 400)
+        self.screen.blit(text, trect)
 
     def tigerWon(self):
         fontW = pygame.font.SysFont("serif", 50)
-        text = fontW.render("Tigers Won!", True, BLACK)
-        self.screen.blit(text, (300, 400))
+        text = fontW.render("Tigers Won!", True, WHITE, BLACK)
+        trect = text.get_rect()
+        trect.center = (400, 400)
+        self.screen.blit(text, trect)
 
     def checkNeighbours(self, pos):
         count = 0
@@ -353,10 +364,8 @@ class GamePlay:
                 if action == "Quit":
                     pygame.quit()
                     quit()
-                    # game starts
         else:
             pygame.draw.rect(screen, color2, (x, y, width, height))
-
 
 
 game = GamePlay(1200, 800)
@@ -383,7 +392,6 @@ while running:
                     menu = True
 
         screen.fill((0, 0, 0))
-        #clock.tick(15)
 
         screen.blit(picture, (0, 0))
 
