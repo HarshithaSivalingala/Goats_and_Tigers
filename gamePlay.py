@@ -1,6 +1,7 @@
 import pygame
 import time
 
+
 pygame.init()
 BLACK = (0, 0, 0)
 whichT = -1
@@ -21,6 +22,9 @@ goat_noise = pygame.mixer.Sound('notes_and_resources/Goat-noise.mp3')
 
 tiger = 1
 goat = 0
+
+icon = pygame.image.load('notes_and_resources/icon.png')
+pygame.display.set_icon(icon)
 
 boardState = [[(400, 200), 1],
               [(200, 334), -1], [(333, 333), -1], [(378, 331), 1], [(422, 334), 1], [(467, 333), -1], [(600, 333), -1],
@@ -53,6 +57,7 @@ class GamePlay:
         self.goatOffy = 100
 
         pygame.display.set_caption("Goats and Tiger")
+
 
     def gameBoard(self):
         bg = pygame.image.load("notes_and_resources/brown_bg.jpg")
