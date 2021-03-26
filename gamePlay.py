@@ -25,13 +25,13 @@ LIME = (0, 255, 0)
 
 input_rect = pygame.Rect(800, 600, 200, 50)
 
-bgimage = pygame.image.load("notes_and_resources/game_bg.png")
+bgimage = pygame.image.load("notes_and_resources/menubg.jpg")
 picture = pygame.transform.scale(bgimage, (1400, 800))
 
 clock = pygame.time.Clock()
 
 
-pygame.mixer.music.load('notes_and_resources/BG2.mp3')
+pygame.mixer.music.load('notes_and_resources/bgmusic.mp3')
 pygame.mixer.music.play(-1)
 tiger_noise = pygame.mixer.Sound('notes_and_resources/tiger-roar4.mp3')
 goat_noise = pygame.mixer.Sound('notes_and_resources/Goat-noise.mp3')
@@ -131,10 +131,10 @@ class GamePlay:
         fontT = pygame.font.SysFont("forte", 47)
         text = fontT.render("Score Board", True, (77, 0, 13))
         self.screen.blit(text, (820, 100))
-        font = pygame.font.SysFont("comicsanms", 28)
+        font = pygame.font.SysFont("cooperblack", 28)
         text1 = font.render("Goats Left : ", True, BLACK)
         goatsLeft = font.render(str(self.goatsLeft), True, GREEN)
-        self.screen.blit(text1, (750, 150))
+        self.screen.blit(text1, (750, 200))
         self.screen.blit(goatsLeft, (1000, 200))
         text2 = font.render("Goats Captured : ", True, BLACK)
         goatsCaught = font.render(str(self.goatsCaptured), True, RED)
@@ -387,11 +387,11 @@ while running:
         screen.blit(picture, (0, 0))
 
 
-        game.buttons("Start Game", 500, 500, 168, 50, LIME, GREEN, action="Play")
-        game.buttons("Quit", 540, 570, 80, 50, YELLOW, LIGHT_YELLOW, action="Quit")
+        game.buttons("Start Game", 560, 500, 168, 50, LIME, GREEN, action="Play")
+        game.buttons("Quit", 600, 570, 80, 50, YELLOW, LIGHT_YELLOW, action="Quit")
 
-        game.textButton(text1, BLACK, 550, 500, 70, 50)
-        game.textButton(text2, BLACK, 540, 570, 70, 50)
+        game.textButton(text1, BLACK, 610, 500, 70, 50)
+        game.textButton(text2, BLACK, 600, 570, 70, 50)
         pygame.display.update()
 
     game.gameBoard()
