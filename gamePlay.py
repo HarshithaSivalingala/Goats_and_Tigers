@@ -91,23 +91,42 @@ class GamePlay:
         # input_rect.w = max(100, text.get_width() + 10) # if the text is increased
 
     def scoreBoard(self):
+        # bg image
+        image = pygame.image.load("notes_and_resources/scorebg.jpeg")
+        image = pygame.transform.scale(image, (430, 370))
+        sprite = pygame.sprite.Sprite()
+        sprite.image = image
+
+
+        sprite.rect = image.get_rect()
+        #pygame.display.flip()
+        sprite.rect.center = (950, 270)
+        sprite.image.blit(image, sprite.rect)
+        group = pygame.sprite.Group()
+        group.add(sprite)
+        group.draw(self.screen)
+
+
+
         # font for Title
-        fontT = pygame.font.SysFont("monospace", 45)
-        text = fontT.render("Score Board", True, BLACK)
-        self.screen.blit(text, (800, 100))
-        font = pygame.font.SysFont("arial.tff", 35)
+        fontT = pygame.font.SysFont("forte", 47)
+        text = fontT.render("Score Board", True, (77, 0, 13))
+        self.screen.blit(text, (820, 100))
+        font = pygame.font.SysFont("forte", 28)
         text1 = font.render("Goats Left : ", True, BLACK)
         goatsLeft = font.render(str(self.goatsLeft), True, GREEN)
-        self.screen.blit(text1, (750, 200))
-        self.screen.blit(goatsLeft, (970, 200))
+        self.screen.blit(text1, (750, 150))
+        self.screen.blit(goatsLeft, (1000, 200))
         text2 = font.render("Goats Captured : ", True, BLACK)
         goatsCaught = font.render(str(self.goatsCaptured), True, RED)
         self.screen.blit(text2, (750, 300))
-        self.screen.blit(goatsCaught, (970, 300))
+        self.screen.blit(goatsCaught, (1000, 300))
         text3 = font.render("Tigers Cornered : ", True, BLACK)
         tigersCornered = font.render(str(self.tigersCornered), True, RED)
         self.screen.blit(text3, (750, 400))
-        self.screen.blit(tigersCornered, (970, 400))
+        self.screen.blit(tigersCornered, (1000, 400))
+
+
 
 
     def drawTiger(self, coord):
