@@ -1,19 +1,37 @@
 import pygame
-import time
+
 
 
 pygame.init()
-BLACK = (0, 0, 0)
+
 whichT = -1
 whichG = -1
 
 moves = 0
+width = 1400
+height = 800
+screen = pygame.display.set_mode((width, height))
+
+text1 = "Start Game"
+text2 = "Quit"
+
+ # colors
+
+BLACK = (0, 0, 0)
+lIGHT_GREEN = (50, 205, 50)
+RED = (220, 20, 60)
+LIGHT_YELLOW = (200, 200, 0)
+YELLOW = (255, 255, 0)
+GREEN = (34, 177, 76)
+LIME = (0, 255, 0)
 
 input_rect = pygame.Rect(800, 600, 200, 50)
+
+bgimage = pygame.image.load("game bg.png")
+picture = pygame.transform.scale(bgimage, (1400, 800))
+
 clock = pygame.time.Clock()
-BLACK = (0, 0, 0)
-GREEN = (50, 205, 50)
-RED = (220, 20, 60)
+
 
 pygame.mixer.music.load('notes_and_resources/BG2.mp3')
 pygame.mixer.music.play(-1)
@@ -50,7 +68,6 @@ class GamePlay:
         self.goatsLeft = 15
         self.goatsCaptured = 0
         self.v = 1
-
         self.phase1 = True
         self.goatOn = -1
         self.goatOffx = 150
@@ -112,12 +129,11 @@ class GamePlay:
         group.draw(self.screen)
 
 
-
         # font for Title
         fontT = pygame.font.SysFont("forte", 47)
         text = fontT.render("Score Board", True, (77, 0, 13))
         self.screen.blit(text, (820, 100))
-        font = pygame.font.SysFont("forte", 28)
+        font = pygame.font.SysFont("comicsanms", 28)
         text1 = font.render("Goats Left : ", True, BLACK)
         goatsLeft = font.render(str(self.goatsLeft), True, GREEN)
         self.screen.blit(text1, (750, 150))
@@ -130,9 +146,6 @@ class GamePlay:
         tigersCornered = font.render(str(self.tigersCornered), True, RED)
         self.screen.blit(text3, (750, 400))
         self.screen.blit(tigersCornered, (1000, 400))
-
-
-
 
     def drawTiger(self, coord):
         tiger = pygame.image.load('notes_and_resources/Tiger.png')
@@ -317,9 +330,39 @@ class GamePlay:
                 count += 1
         return count == len(tigerJumps[pos])
 
+    def textButton(self, text, color, x, y, width, height):
+        if text == text1:
+            text = pygame.font.SysFont("comicsansms", 30)
+            textB = text.render(text1, True, color)
+            rect = textB.get_rect()
+            rect.center = ((x + (width / 2)), (y + (height / 2)))
+            screen.blit(textB, rect)
+
+        elif text == text2:
+            text = pygame.font.SysFont("comicsansms", 30)
+            textB1 = text.render(text2, True, color)
+            rect = textB1.get_rect()
+            rect.center = ((x + (width / 2)), (y + (height / 2)))
+            screen.blit(textB1, rect)
+
+    def buttons(self, text, x, y, width, height, color1, color2, action=None):
+        current = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+        if x + width > current[0] > x and y + height > current[1] > y:
+            pygame.draw.rect(screen, color1, (x, y, width, height))
+            if click[0] == 1 and action != None:
+                if action == "Quit":
+                    pygame.quit()
+                    quit()
+                    # game starts
+        else:
+            pygame.draw.rect(screen, color2, (x, y, width, height))
+
+
 
 game = GamePlay(1200, 800)
 
+menu = True
 running = True
 
 tigerPositions = [(400, 200), (378, 331), (422, 334)]
@@ -328,6 +371,31 @@ goatPositions = []
 user_text = ''
 
 while running:
+
+    while menu:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    menu = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    menu = True
+
+        screen.fill((0, 0, 0))
+        #clock.tick(15)
+
+        screen.blit(picture, (0, 0))
+
+
+        game.buttons("Start Game", 500, 500, 168, 50, LIME, GREEN, action="Play")
+        game.buttons("Quit", 540, 570, 80, 50, YELLOW, LIGHT_YELLOW, action="Quit")
+
+        game.textButton(text1, BLACK, 550, 500, 70, 50)
+        game.textButton(text2, BLACK, 540, 570, 70, 50)
+        pygame.display.update()
+
     game.gameBoard()
     game.scoreBoard()
     game.user_input()
