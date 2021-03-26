@@ -2,8 +2,7 @@ import pygame
 pygame.init()
 clock = pygame.time.Clock()
 
-icon = pygame.image.load('notes_and_resources/tglogo.png')
-pygame.display.set_icon(icon)
+
 
 class GamePlay:
     def __init__(self, width, height):

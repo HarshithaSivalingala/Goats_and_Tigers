@@ -23,6 +23,9 @@ goat_noise = pygame.mixer.Sound('notes_and_resources/Goat-noise.mp3')
 tiger = 1
 goat = 0
 
+icon = pygame.image.load('notes_and_resources/tglogo.png')
+pygame.display.set_icon(icon)
+
 boardState = [[(400, 200), 1],
               [(200, 334), -1], [(333, 333), -1], [(378, 331), 1], [(422, 334), 1], [(467, 333), -1], [(600, 333), -1],
               [(200, 400), -1], [(300, 400), -1], [(366, 400), -1], [(433, 400), -1], [(500, 400), -1], [(600, 400), -1],
