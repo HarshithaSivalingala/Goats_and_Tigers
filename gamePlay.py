@@ -1,6 +1,7 @@
 import pygame
 import time
 
+
 pygame.init()
 BLACK = (0, 0, 0)
 whichT = -1
@@ -53,6 +54,7 @@ class GamePlay:
         self.goatOffy = 100
 
         pygame.display.set_caption("Goats and Tiger")
+
 
     def gameBoard(self):
         bg = pygame.image.load("notes_and_resources/brown_bg.jpg")

@@ -2,6 +2,9 @@ import pygame
 pygame.init()
 clock = pygame.time.Clock()
 
+icon = pygame.image.load('notes_and_resources/tglogo.png')
+pygame.display.set_icon(icon)
+
 class GamePlay:
     def __init__(self, width, height):
         self.width = width
@@ -9,6 +12,7 @@ class GamePlay:
         self.screen = pygame.display.set_mode((width, height))
         self.move = 0
         pygame.display.set_caption("Goats and Tiger")
+
 
     def gameBoard(self):
         bg = pygame.image.load("notes_and_resources/brown_bg.jpg")
