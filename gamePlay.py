@@ -16,7 +16,7 @@ RED = (220, 20, 60)
 
 pygame.mixer.music.load('notes_and_resources/BG2.mp3')
 pygame.mixer.music.play(-1)
-tiger_noise = pygame.mixer.Sound('notes_and_resources/sounds_tigersound.wav')
+tiger_noise = pygame.mixer.Sound('notes_and_resources/tiger-roar4.mp3')
 goat_noise = pygame.mixer.Sound('notes_and_resources/Goat-noise.mp3')
 
 tiger = 1
@@ -239,9 +239,9 @@ class GamePlay:
 
     def tigerMove(self, curr, des, whichT):
         if self.goatKilled(curr, des):
-            tiger_noise.play()
-            self.goatsCaptured += 1
-            self.goatsLeft -= 1
+           tiger_noise.play()
+           self.goatsCaptured += 1
+           self.goatsLeft -= 1
 
         tigerPositions[whichT] = boardState[des][0]
         boardState[curr][1] = -1
