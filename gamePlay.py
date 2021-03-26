@@ -1,7 +1,5 @@
 import pygame
 
-
-
 pygame.init()
 
 whichT = -1
@@ -27,7 +25,7 @@ LIME = (0, 255, 0)
 
 input_rect = pygame.Rect(800, 600, 200, 50)
 
-bgimage = pygame.image.load("game bg.png")
+bgimage = pygame.image.load("notes_and_resources/game_bg.png")
 picture = pygame.transform.scale(bgimage, (1400, 800))
 
 clock = pygame.time.Clock()
