@@ -15,7 +15,7 @@ GREEN = (50, 205, 50)
 RED = (220, 20, 60)
 
 pygame.mixer.music.load('notes_and_resources/BG2.mp3')
-#pygame.mixer.music.play(-1)
+pygame.mixer.music.play(-1)
 tiger_noise = pygame.mixer.Sound('notes_and_resources/sounds_tigersound.wav')
 goat_noise = pygame.mixer.Sound('notes_and_resources/Goat-noise.mp3')
 
@@ -45,6 +45,7 @@ class GamePlay:
         self.tigersCornered = 0
         self.goatsLeft = 15
         self.goatsCaptured = 0
+        self.v = 1
 
         self.phase1 = True
         self.goatOn = -1
@@ -156,16 +157,32 @@ class GamePlay:
                     return j
 
     def isValid(self, inp):
-        return True
+        self.v = 1
+        if ',' in inp:
+            [curr, des] = list(map(int, inp.strip().split(',')))
+            if boardState[curr][1] == 1 and boardState[des][1] == 1:
+                self.v = 0
+                return False
+            elif boardState[curr][1] != -1 and boardState[des][1] != -1:
+                self.v = 0
+                return False
+            return True
+        else:
+            if boardState[int(inp)][1] == -1:
+                return True
+            self.v = 0
+            return False
+
+    def invalid(self):
+        fontIn = pygame.font.SysFont("serif", 45)
+        text = fontIn.render("Invalid Move", True, RED)
+        self.screen.blit(text, (500, 100))
 
     def movePiece(self, inp):
         global moves
         if self.isValid(inp):
             moves += 1
         else:
-            fontIn = pygame.font.SysFont("serif", 45)
-            text = fontIn.render("Score Board", True, RED)
-            self.screen.blit(text, (500, 100))
             return
 
         if moves == 30:
@@ -250,9 +267,7 @@ class GamePlay:
             ind = boardState.index([tigerVect[i].center, 1])
             if self.checkNeighbours(ind) and self.checkTigerJump(ind):
                 tc += 1
-
         self.tigersCornered = tc
-        #if self.tigersCornered == 3:
 
     def goatsWon(self):
         fontW = pygame.font.SysFont("serif", 50)
@@ -307,6 +322,9 @@ while running:
         goatsVect.append(game.drawGoat(goatPositions[j]))
 
     game.display(moves)
+
+    if not game.v:
+        game.invalid()
 
     if game.tigersCornered == 3:
         game.goatsWon()
