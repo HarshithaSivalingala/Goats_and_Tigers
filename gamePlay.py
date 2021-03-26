@@ -21,11 +21,21 @@ goat_noise = pygame.mixer.Sound('notes_and_resources/Goat-noise.mp3')
 
 tiger = 1
 goat = 0
+
 boardState = [[(400, 200), 1],
               [(200, 334), -1], [(333, 333), -1], [(378, 331), 1], [(422, 334), 1], [(467, 333), -1], [(600, 333), -1],
               [(200, 400), -1], [(300, 400), -1], [(366, 400), -1], [(433, 400), -1], [(500, 400), -1], [(600, 400), -1],
               [(200, 468), -1], [(266, 466), -1], [(356, 467), -1], [(443, 467), -1], [(534, 466), -1], [(600, 466), -1],
               [(200, 600), -1], [(333, 600), -1], [(467, 600), -1], [(600, 600), -1]]
+
+neighbours = [[2, 3, 4, 5], [7, 2], [0, 1, 3, 8], [0, 2, 4, 9], [0, 3, 5, 10], [0, 4, 6, 11], [5, 12],
+              [1, 8, 13], [2, 7, 9, 14], [3, 8, 10, 15], [4, 9, 11, 16], [5, 10, 12, 17], [6, 11, 18],
+              [7, 14], [8, 13, 15, 19], [9, 14, 16, 20], [10, 15, 17, 21], [11, 16, 18, 22], [12, 17]]
+
+tigerJumps = [[8, 9, 10, 11], [13, 3], [14, 4], [1, 5, 15], [2, 6, 16], [3, 17], [4, 18],
+              [9], [0, 19, 10], [0, 7, 11, 20], [0, 8, 12, 21], [0, 9, 22], [10],
+              [1, 15], [2, 16], [3, 13, 17], [4, 14, 18], [5, 15], [6, 16],
+              [8, 21], [9, 22], [10, 19], [11, 20]]
 
 class GamePlay:
     def __init__(self, width, height):
@@ -97,6 +107,7 @@ class GamePlay:
         tigersCornered = font.render(str(self.tigersCornered), True, RED)
         self.screen.blit(text3, (750, 400))
         self.screen.blit(tigersCornered, (970, 400))
+
 
     def drawTiger(self, coord):
         tiger = pygame.image.load('notes_and_resources/Tiger.png')
@@ -190,7 +201,6 @@ class GamePlay:
         elif abs(curr - des) > 2:
             return self.verticalMove(curr, des)
         else:
-            print("inside")
             return self.horizontalMove(curr, des)
 
     def horizontalMove(self, curr, des):
@@ -219,21 +229,54 @@ class GamePlay:
         tigerPositions[whichT] = boardState[des][0]
         boardState[curr][1] = -1
         boardState[des][1] = 1
-        if self.goatsCaptured == 5:
-            print("Tiger won")
-            exit()
 
     def goatMove(self, curr, des, whichG):
         goatPositions[whichG] = boardState[des][0]
         #goat_noise.play()
         boardState[curr][1] = -1
         boardState[des][1] = 0
+        self.isTigerCornered()
 
     def goatMove1(self, inp):
         self.goatOn += 1
         goatPositions[self.goatOn] = boardState[int(inp)][0]
         #goat_noise.play()
         boardState[int(inp)][1] = 0
+        self.isTigerCornered()
+
+    def isTigerCornered(self):
+        tc = 0
+        for i in range(3):
+            ind = boardState.index([tigerVect[i].center, 1])
+            if self.checkNeighbours(ind) and self.checkTigerJump(ind):
+                tc += 1
+
+        self.tigersCornered = tc
+        #if self.tigersCornered == 3:
+
+    def goatsWon(self):
+        fontW = pygame.font.SysFont("serif", 50)
+        text = fontW.render("Goats Won!", True, BLACK)
+        self.screen.blit(text, (300, 400))
+
+    def tigerWon(self):
+        fontW = pygame.font.SysFont("serif", 50)
+        text = fontW.render("Tigers Won!", True, BLACK)
+        self.screen.blit(text, (300, 400))
+
+    def checkNeighbours(self, pos):
+        count = 0
+        for n in neighbours[pos]:
+            if boardState[n][1] != -1:
+                count += 1
+        return count == len(neighbours[pos])
+
+    def checkTigerJump(self, pos):
+        count = 0
+        for n in tigerJumps[pos]:
+            if boardState[n][1] != -1:
+                count += 1
+        return count == len(tigerJumps[pos])
 
 
 game = GamePlay(1200, 800)
@@ -264,6 +307,12 @@ while running:
         goatsVect.append(game.drawGoat(goatPositions[j]))
 
     game.display(moves)
+
+    if game.tigersCornered == 3:
+        game.goatsWon()
+
+    if game.goatsCaptured == 5:
+        game.tigerWon()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
