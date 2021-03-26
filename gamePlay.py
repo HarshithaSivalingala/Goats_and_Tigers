@@ -35,7 +35,7 @@ pygame.mixer.music.load('notes_and_resources/bgmusic.mp3')
 pygame.mixer.music.play(-1)
 tiger_noise = pygame.mixer.Sound('notes_and_resources/tiger-roar4.mp3')
 goat_noise = pygame.mixer.Sound('notes_and_resources/Goat-noise.mp3')
-
+coin_sound = pygame.mixer.Sound('notes_and_resources/coin_sound.wav')
 tiger = 1
 goat = 0
 
@@ -71,7 +71,7 @@ class GamePlay:
         self.goatOffx = 150
         self.goatOffy = 100
 
-        pygame.display.set_caption("Goats and Tiger")
+        pygame.display.set_caption("Goats and Tigers")
 
 
     def gameBoard(self):
@@ -215,6 +215,7 @@ class GamePlay:
 
     def movePiece(self, inp):
         global moves
+        coin_sound.play()
         if self.isValid(inp):
             moves += 1
         else:
