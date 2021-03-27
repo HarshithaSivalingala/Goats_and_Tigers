@@ -127,9 +127,9 @@ class GamePlay:
         font = pygame.font.SysFont("cooperblack", 30)
         goatsLeft = font.render(str(self.goatsLeft), True, GREEN)
         self.screen.blit(goatsLeft, (1030, 220))
-        goatsCaught = font.render(str(self.goatsCaptured), True, RED)
+        goatsCaught = font.render(str(self.goatsCaptured), True, GREEN)
         self.screen.blit(goatsCaught, (1030, 290))
-        tigersCornered = font.render(str(self.tigersCornered), True, RED)
+        tigersCornered = font.render(str(self.tigersCornered), True, GREEN)
         self.screen.blit(tigersCornered, (1030, 350))
 
     def drawTiger(self, coord):
