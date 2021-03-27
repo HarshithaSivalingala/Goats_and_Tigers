@@ -42,16 +42,31 @@ class GamePlay:
     def scoreBoard(self):
         BLACK = (0, 0, 0)
         # font for Title
-        fontT = pygame.font.SysFont("monospace", 45)
-        text = fontT.render("Score Board", True, BLACK)
-        screen.blit(text, (800, 100))
-        font = pygame.font.SysFont("arial.tff", 35)
+        fontT = pygame.font.SysFont("forte", 47)
+        text = fontT.render("Score Board", True, (77, 0, 13))
+        self.screen.blit(text, (820, 100))
+        font = pygame.font.SysFont("forte", 28)
         text1 = font.render("Goats Left : ", True, BLACK)
-        screen.blit(text1, (750, 200))
+        goatsLeft = font.render(str(self.goatsLeft), True, GREEN)
+        self.screen.blit(text1, (750, 150))
+        self.screen.blit(goatsLeft, (1000, 200))
         text2 = font.render("Goats Captured : ", True, BLACK)
-        screen.blit(text2, (750, 300))
+        goatsCaught = font.render(str(self.goatsCaptured), True, RED)
+        self.screen.blit(text2, (750, 300))
+        self.screen.blit(goatsCaught, (1000, 300))
         text3 = font.render("Tigers Cornered : ", True, BLACK)
-        screen.blit(text3, (750, 400))
+        tigersCornered = font.render(str(self.tigersCornered), True, RED)
+        self.screen.blit(text3, (750, 400))
+        self.screen.blit(tigersCornered, (1000, 400))
+        # Grid for scoreboard
+        pygame.draw.line(self.screen, (77, 25, 0), (740, 90), (740, 450), 5)
+        pygame.draw.line(self.screen, (77, 25, 0), (740, 150), (1150, 150), 5)
+        pygame.draw.line(self.screen, (77, 25, 0), (740, 250), (1150, 250), 5)
+        pygame.draw.line(self.screen, (77, 25, 0), (740, 350), (1150, 350), 5)
+        pygame.draw.line(self.screen, (77, 25, 0), (740, 450), (1150, 450), 5)
+        pygame.draw.line(self.screen, (77, 25, 0), (1150, 90), (1150, 450), 5)
+        pygame.draw.line(self.screen, (77, 25, 0), (740, 90), (1150, 90), 5)
+        pygame.draw.line(self.screen, (77, 25, 0), (960, 150), (960, 450), 5)
 
     def drawTiger(self, tx, ty):
         # Inserting tiger

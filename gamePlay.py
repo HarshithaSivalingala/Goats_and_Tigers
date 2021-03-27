@@ -112,25 +112,11 @@ class GamePlay:
         # input_rect.w = max(100, text.get_width() + 10) # if the text is increased
 
     def scoreBoard(self):
-        # bg image
-        image = pygame.image.load("notes_and_resources/scorebg.jpeg")
-        image = pygame.transform.scale(image, (430, 370))
-        sprite = pygame.sprite.Sprite()
-        sprite.image = image
-
-        sprite.rect = image.get_rect()
-        #pygame.display.flip()
-        sprite.rect.center = (950, 270)
-        sprite.image.blit(image, sprite.rect)
-        group = pygame.sprite.Group()
-        group.add(sprite)
-        group.draw(self.screen)
-
         # font for Title
-        fontT = pygame.font.SysFont("forte", 47)
+        fontT = pygame.font.SysFont("broadway", 47)
         text = fontT.render("Score Board", True, (77, 0, 13))
-        self.screen.blit(text, (820, 100))
-        font = pygame.font.SysFont("cooperblack", 28)
+        self.screen.blit(text, (790, 100))
+        font = pygame.font.SysFont("broadway", 22)
         text1 = font.render("Goats Left : ", True, BLACK)
         goatsLeft = font.render(str(self.goatsLeft), True, GREEN)
         self.screen.blit(text1, (750, 200))
@@ -143,6 +129,15 @@ class GamePlay:
         tigersCornered = font.render(str(self.tigersCornered), True, RED)
         self.screen.blit(text3, (750, 400))
         self.screen.blit(tigersCornered, (1000, 400))
+        # Grid for scoreboard
+        pygame.draw.line(self.screen, (77, 25, 0), (740, 90), (740, 450), 5)
+        pygame.draw.line(self.screen, (77, 25, 0), (740, 150), (1150, 150), 5)
+        pygame.draw.line(self.screen, (77, 25, 0), (740, 250), (1150, 250), 5)
+        pygame.draw.line(self.screen, (77, 25, 0), (740, 350), (1150, 350), 5)
+        pygame.draw.line(self.screen, (77, 25, 0), (740, 450), (1150, 450), 5)
+        pygame.draw.line(self.screen, (77, 25, 0), (1150, 90), (1150, 450), 5)
+        pygame.draw.line(self.screen, (77, 25, 0), (740, 90), (1150, 90), 5)
+        pygame.draw.line(self.screen, (77, 25, 0), (960, 150), (960, 450), 5)
 
     def drawTiger(self, coord):
         tiger = pygame.image.load('notes_and_resources/Tiger.png')
