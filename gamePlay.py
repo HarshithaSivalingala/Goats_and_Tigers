@@ -111,34 +111,26 @@ class GamePlay:
         # input_rect.w = max(100, text.get_width() + 10) # if the text is increased
 
     def scoreBoard(self):
-        # font for Title
-        fontT = pygame.font.SysFont("Georgia", 47)
-        text = fontT.render("Score Board", True, (153, 61, 0))
-        self.screen.blit(text, (830, 100))
-        font = pygame.font.SysFont("Candara", 30)
-        font.set_bold(1)
-        text1 = font.render("Goats Left", True, BLACK)
-        goatsLeft = font.render(str(self.goatsLeft), True, PURPLE)
-        self.screen.blit(text1, (750, 200))
-        self.screen.blit(goatsLeft, (1030, 200))
-        text2 = font.render("Goats Captured", True, BLACK)
-        goatsCaught = font.render(str(self.goatsCaptured), True, PINK)
-        self.screen.blit(text2, (750, 300))
-        self.screen.blit(goatsCaught, (1030, 300))
-        text3 = font.render("Tigers Cornered", True, BLACK)
-        tigersCornered = font.render(str(self.tigersCornered), True, PINK)
-        self.screen.blit(text3, (750, 400))
-        self.screen.blit(tigersCornered, (1030, 400))
-        # Grid for scoreboard
+        #scorebg
+        image = pygame.image.load("notes_and_resources/scoreboard.png")
+        image = pygame.transform.scale(image, (430, 370))
+        sprite = pygame.sprite.Sprite()
+        sprite.image = image
+        sprite.rect = image.get_rect()
+        sprite.rect.center = (950, 270)
+        sprite.image.blit(image, sprite.rect)
+        group = pygame.sprite.Group()
+        group.add(sprite)
+        group.draw(self.screen)
 
-        pygame.draw.line(self.screen, (77, 25, 0), (740, 90), (740, 450), 4)
-        pygame.draw.line(self.screen, (77, 25, 0), (740, 150), (1150, 150), 4) #hor1
-        pygame.draw.line(self.screen, (77, 25, 0), (740, 250), (1150, 250), 4) #hor2
-        pygame.draw.line(self.screen, (77, 25, 0), (740, 350), (1150, 350), 4) #hor3
-        pygame.draw.line(self.screen, (77, 25, 0), (740, 450), (1150, 450), 4) #hor4
-        pygame.draw.line(self.screen, (77, 25, 0), (1150, 90), (1150, 450), 4) # last ver
-        pygame.draw.line(self.screen, (77, 25, 0), (740, 90), (1150, 90), 4)
-        pygame.draw.line(self.screen, (77, 25, 0), (1000, 150), (1000, 450), 4)
+        # count on scoreboard
+        font = pygame.font.SysFont("cooperblack", 30)
+        goatsLeft = font.render(str(self.goatsLeft), True, GREEN)
+        self.screen.blit(goatsLeft, (1030, 220))
+        goatsCaught = font.render(str(self.goatsCaptured), True, RED)
+        self.screen.blit(goatsCaught, (1030, 290))
+        tigersCornered = font.render(str(self.tigersCornered), True, RED)
+        self.screen.blit(tigersCornered, (1030, 350))
 
     def drawTiger(self, coord):
         tiger = pygame.image.load('notes_and_resources/Tiger.png')
