@@ -8,9 +8,9 @@ In the game one player controls three tigers and the other player controls up to
 
 ****Team members:****
 
-1. 19WH1A1253 - S. Harshitha
+1. 19WH1A1253 - S. Sai Harshitha
 2. 19WH1A0528 - P. Pratyusha
-3. 19WH1A0227 - Bh. Sai Shruthi
+3. 19WH1A0227 - Bh. Sai Sruthi
 4. 19WH1A0488 - K. Sritulasi
 5. 19WH1A05E4 - G. Neha 
 6. 19WH1A1208 - C. Madhuri
