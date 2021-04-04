@@ -10,7 +10,7 @@ width = 1400
 height = 800
 screen = pygame.display.set_mode((width, height))
 
-text1 = "Start Game"
+text1 = "Start"
 text2 = "Quit"
 
  # colors
@@ -73,7 +73,7 @@ class GamePlay:
         self.goatOffx = 150
         self.goatOffy = 100
 
-        pygame.display.set_caption("Goats and Tigers")
+        pygame.display.set_caption("Goats and Tiger")
 
     def gameBoard(self):
         bg = pygame.image.load("notes_and_resources/brown_bg.jpg")
@@ -202,6 +202,7 @@ class GamePlay:
 
     def movePiece(self, inp):
         global moves
+
         if self.isValid(inp):
             coin_sound.play()
             moves += 1
