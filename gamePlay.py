@@ -20,6 +20,7 @@ WHITE = (255, 255, 255)
 LIGHT_GREEN = (50, 205, 50)
 PINK = (179, 0, 89)
 RED = (153, 0, 0)
+REDL = (240, 0, 0)
 LIGHT_YELLOW = (200, 200, 0)
 YELLOW = (255, 255, 0)
 GREEN = (173,255,47)
@@ -32,9 +33,8 @@ picture = pygame.transform.scale(bgimage, (1400, 800))
 
 clock = pygame.time.Clock()
 
-
-pygame.mixer.music.load('notes_and_resources/bgmusic.mp3')
-pygame.mixer.music.play(-1)
+#pygame.mixer.music.load('notes_and_resources/bgmusic.mp3')
+#pygame.mixer.music.play(-1)
 tiger_noise = pygame.mixer.Sound('notes_and_resources/tiger-roar4.mp3')
 goat_noise = pygame.mixer.Sound('notes_and_resources/Goat-noise.mp3')
 coin_sound = pygame.mixer.Sound('notes_and_resources/coin_sound.wav')
@@ -74,7 +74,6 @@ class GamePlay:
         self.goatOffy = 100
 
         pygame.display.set_caption("Goats and Tigers")
-
 
     def gameBoard(self):
         bg = pygame.image.load("notes_and_resources/brown_bg.jpg")
@@ -124,13 +123,14 @@ class GamePlay:
         group.draw(self.screen)
 
         # count on scoreboard
-        font = pygame.font.SysFont("cooperblack", 30)
+        font = pygame.font.SysFont("candara", 30)
+        font.set_bold(1.5)
         goatsLeft = font.render(str(self.goatsLeft), True, GREEN)
-        self.screen.blit(goatsLeft, (1030, 220))
-        goatsCaught = font.render(str(self.goatsCaptured), True, GREEN)
-        self.screen.blit(goatsCaught, (1030, 290))
-        tigersCornered = font.render(str(self.tigersCornered), True, GREEN)
-        self.screen.blit(tigersCornered, (1030, 350))
+        self.screen.blit(goatsLeft, (1030, 230))
+        goatsCaught = font.render(str(self.goatsCaptured), True, REDL)
+        self.screen.blit(goatsCaught, (1030, 295))
+        tigersCornered = font.render(str(self.tigersCornered), True, REDL)
+        self.screen.blit(tigersCornered, (1030, 355))
 
     def drawTiger(self, coord):
         tiger = pygame.image.load('notes_and_resources/Tiger.png')
@@ -202,8 +202,8 @@ class GamePlay:
 
     def movePiece(self, inp):
         global moves
-        coin_sound.play()
         if self.isValid(inp):
+            coin_sound.play()
             moves += 1
         else:
             return
